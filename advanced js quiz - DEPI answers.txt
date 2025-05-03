@@ -1,0 +1,130 @@
+1.const SumBy = num1 => num2 => num1 + num2;
+const sumByTwo = SumBy(2);     
+const sumByThree = SumBy(3);   
+console.log(sumByTwo(4));       
+console.log(sumByThree(5));
+
+output:  6 , 8
+(This is an example of function currying.
+SumBy(2) returns a function: num2 => 2 + num2
+Then when we do sumByTwo(4), we are actually doing 2 + 4.
+Same for SumBy(3)(5) which results in 3 + 5 = 8)
+
+2.
+ let person = {
+  male: true
+}
+let john = Object.create(person);
+john.age = 25;
+console.log(person.isPrototypeOf(john));
+     output:
+true>> 
+We use Object.create(person) to make a new object john, and it sets person as the prototype of john.
+That means john inherits from person.
+So when we check person.isPrototypeOf(john), it returns true.
+
+
+3.let fs = require('fs');
+console.log('1');
+
+fs.readFile('test.txt', 'utf8', function(error, data) {
+    if (error) {
+        throw error;
+    }
+    console.log('2');
+});
+
+console.log('3');
+
+output:
+1
+3
+2  ← (this comes later, *if the file is read successfully*)
+
+
+4.new Promise((resolve, reject) => {
+    resolve('Success!')
+})
+.then(() => {
+    throw Error('Oh noes!')
+})
+.catch(error => {
+    return 'actually, that worked'
+})
+.catch(error => console.log(error.message));
+
+output:(no output at all)
+
+
+5.const shape = {
+    radius: 10,
+    diameter() {
+        return this.radius * 2;
+    },
+    perimeter: () => 2 * Math.PI * this.radius,
+};
+
+console.log(shape.diameter());   // 20
+console.log(shape.perimeter()); // NaN
+
+output:
+20
+NaN
+
+
+6.class Chameleon {
+  static colorChange(newColor) {
+    this.newColor = newColor;
+    return this.newColor;
+  }
+
+  constructor(newColor) {
+    this.newColor = newColor;
+  }
+}
+
+const freddie = new Chameleon('Purple');
+console.log(freddie.colorChange('orange'));
+
+   output:
+ERROR >>TypeError: freddie.colorChange is not a function
+
+
+7.function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+
+const member = new Person('Lydia', 'Hallie');
+
+Person.getFullName = function() {
+  return `${this.firstName} ${this.lastName}`;
+};
+
+console.log(member.getFullName());
+
+output:
+ERROR>>
+TypeError: member.getFullName is not a function
+
+
+8.const obj = { 1: 'a', 2: 'b', 3: 'c' };
+const set = new Set([1, 2, 3, 4, 5]);
+obj.hasOwnProperty('1'); 
+obj.hasOwnProperty(1);  
+set.has('1'); 
+set.has(1);
+
+output: 
+true , true , false , true
+
+
+9.const person = { name: 'Lydia' };
+function sayHi(age) {
+    return `${this.name} is ${age}`;
+}
+console.log(sayHi.call(person, 21)); 
+console.log(sayHi.bind(person, 21));
+
+output:
+"Lydia is 21"
